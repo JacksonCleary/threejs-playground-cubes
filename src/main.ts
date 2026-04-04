@@ -13,5 +13,5 @@ app.start();
 
 // Optional: clean up on HMR / page unload
 if (import.meta.hot) {
-  import.meta.hot.dispose(() => app.dispose());
+    import.meta.hot.dispose(() => app.dispose());
 }

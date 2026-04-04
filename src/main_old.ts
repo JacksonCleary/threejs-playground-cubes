@@ -14,9 +14,9 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
 new OrbitControls(camera, renderer.domElement);
@@ -43,14 +43,14 @@ cameraFolder.add(camera.position, 'z', 0, 20);
 cameraFolder.open();
 
 function animate() {
-  requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
 
-  //cube.rotation.x += 0.01
-  //cube.rotation.y += 0.01
+    //cube.rotation.x += 0.01
+    //cube.rotation.y += 0.01
 
-  renderer.render(scene, camera);
+    renderer.render(scene, camera);
 
-  stats.update();
+    stats.update();
 }
 
 animate();
