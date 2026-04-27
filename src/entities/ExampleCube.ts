@@ -6,12 +6,19 @@ export class ExampleCube extends SceneEntity {
     private mesh!: THREE.Mesh;
     private unsub: Array<() => void> = [];
 
+    constructor(
+        private position: THREE.Vector3 = new THREE.Vector3(0, 0, 0),
+        private color: number = 0x6644cc,
+    ) {
+        super();
+    }
+
     init(app: AppContext): void {
         this.mesh = new THREE.Mesh(
             new THREE.BoxGeometry(1, 1, 1),
-            new THREE.MeshStandardMaterial({ color: 0x6644cc }),
+            new THREE.MeshStandardMaterial({ color: this.color }),
         );
-        this.mesh.position.set(0, 0, 0);
+        this.mesh.position.copy(this.position);
         app.scene.add(this.mesh);
 
         // Example: react to resize events via EventBus
