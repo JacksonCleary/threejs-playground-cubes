@@ -6,9 +6,8 @@ import { ResourceManager } from './ResourceManager';
 import { Camera } from './Camera';
 import type { SceneEntity } from './SceneEntity';
 import type { AppContext } from './types/AppContext';
-import { CoordinateSystem } from './CoordinateSystem';
-import { WorldMapRegistry } from './WorldMapRegistry';
 import Stats from 'three/addons/libs/stats.module.js';
+import { COLORS } from './constants/color';
 
 type AppState = 'idle' | 'loading' | 'running' | 'disposed';
 
@@ -19,8 +18,6 @@ export class App implements AppContext {
     readonly camera: THREE.PerspectiveCamera;
     readonly events: EventBus;
     readonly resources: ResourceManager;
-    readonly coords: CoordinateSystem;
-    readonly worldMap: WorldMapRegistry;
 
     private loop: RenderLoop;
     private entities: SceneEntity[] = [];
@@ -29,7 +26,7 @@ export class App implements AppContext {
     private debug: boolean = false;
     private stats?: Stats;
 
-    private controls: OrbitControls;
+    private controls?: OrbitControls;
 
     constructor(canvas: HTMLCanvasElement, debug: boolean) {
         // Renderer
@@ -41,7 +38,7 @@ export class App implements AppContext {
         this.renderer.outputColorSpace = THREE.SRGBColorSpace;
         this.scene = new THREE.Scene();
         // this.scene.background = new THREE.Color(0x87ceeb); // Sky blue
-        this.scene.background = new THREE.Color(0x1a1a2e);
+        this.scene.background = new THREE.Color(COLORS.bg);
 
         // Atmosphere
         // Reverted fog to previous atmospheric levels
@@ -49,7 +46,7 @@ export class App implements AppContext {
         // this.scene.fog = new THREE.Fog(0x87ceeb, 50, 95);
 
         // Camera
-        this.cameraController = new Camera(0, 80, 80, debug);
+        this.cameraController = new Camera(0, 0, 20);
         this.camera = this.cameraController.getInstance();
         this.cameraController.attachControls(this.renderer);
 
@@ -58,16 +55,6 @@ export class App implements AppContext {
 
         // Resources
         this.resources = new ResourceManager();
-
-        // Coordinate System
-        this.coords = new CoordinateSystem({
-            gridSize: 60,
-            blockSize: 1.0,
-            metersPerBlock: 83,
-        });
-
-        // WorldMap
-        this.worldMap = new WorldMapRegistry();
 
         // Engine
         this.loop = new RenderLoop(this.renderer, this.scene, this.camera);
@@ -80,13 +67,6 @@ export class App implements AppContext {
             this.stats = new Stats();
             document.body.appendChild(this.stats.dom);
         }
-
-        // let's orbit for now
-        // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-        // this.controls.enableDamping = true;
-        //this.controls.maxPolarAngle = Math.PI / 2 - 0.1;
-        // this.controls.autoRotate = true;
-        // this.controls.autoRotateSpeed = 20.0;
     }
 
     /** Add an entity before calling start(). */
@@ -129,7 +109,6 @@ export class App implements AppContext {
         this.entities = [];
         this.resources.dispose();
         this.events.clear();
-        this.worldMap.dispose();
         this.renderer.dispose();
         window.removeEventListener('resize', this.onResize);
 

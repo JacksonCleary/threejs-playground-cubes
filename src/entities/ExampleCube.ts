@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { SceneEntity } from '../SceneEntity';
 import type { AppContext } from '../types/AppContext';
+import { COLORS } from '../constants/color';
 
 export class ExampleCube extends SceneEntity {
     private mesh!: THREE.Mesh;
@@ -8,7 +9,7 @@ export class ExampleCube extends SceneEntity {
 
     constructor(
         private position: THREE.Vector3 = new THREE.Vector3(0, 0, 0),
-        private color: number = 0x6644cc,
+        private color: number = COLORS.ex_fill,
     ) {
         super();
     }

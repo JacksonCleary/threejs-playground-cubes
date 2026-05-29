@@ -7,10 +7,6 @@ body {
     overflow: hidden;
 }
 
-body {
-    background-color: cyan;
-}
-
 canvas {
     height: 100%;
     width: 100%;

@@ -1,56 +1,46 @@
-# Three.js-Boilerplate-TS-Vite
+# Three.js TypeScript Starter
 
-A Three.js Boilerplate for TypeScript Vite projects.
+Clean Three.js starter powered by TypeScript and Vite.
 
-This boilerplate is supplementary to <!--my book titled [**Three.js and TypeScript**](https://amzn.to/3FahROZ) and--> my **ThreeJS and TypeScript** courses at [Udemy](https://www.udemy.com/course/threejs-tutorials/?referralCode=4C7E1DE91C3E42F69D0F) and [YouTube (Channel membership required)](https://www.youtube.com/playlist?list=PLKWUX7aMnlEKTmkBqwjc-tZgULJdNBjEd)
+This repository is intentionally minimal and is designed as a foundation for new 3D projects. It ships with a small app framework (app lifecycle, render loop, entity pattern, resource manager, event bus, camera controller) plus a basic starter scene.
 
-[Introductory Video](https://youtu.be/cZWAqrJhtvQ&list=PLKWUX7aMnlEKTmkBqwjc-tZgULJdNBjEd)
+## What You Get
 
-[Course Discount Coupons](https://sbcode.net/coupons#threejs)
+- TypeScript + Vite setup for fast iteration
+- App lifecycle with init/load/update/dispose flow
+- Entity-based scene composition
+- Reusable EventBus and ResourceManager
+- Perspective camera controller and render loop
+- Starter scene: AmbientLight + rotating ExampleCube
 
-## Boilerplate Overview
-
-When run, the boilerplate shows a multi-coloured wireframe cube, with `OrbitControls`, `Dat.GUI` and `Stats.js` included.
-
-[Example](https://sean-bradley.github.io/Three.js-Boilerplate-TS-Vite/)
-
-![](docs/screengrab.jpg)
-
-## Installing
+## Quick Start
 
 ```bash
-git clone https://github.com/Sean-Bradley/Three.js-Boilerplate-TS-Vite.git
-cd Three.js-Boilerplate-TS-Vite
 npm install
-```
-
-### Develop
-
-```
 npm run dev
 ```
 
-Visit [http://localhost:5173/](http://localhost:5173/)
+Open http://localhost:5173/
 
-### Build Production
+## Build
 
 ```bash
 npm run build
 npm run preview
 ```
 
-Visit [http://localhost:4173/](http://localhost:4173/)
+## Starter Architecture
 
-### Deploy to GitHub pages
+- `src/main.ts` creates the app and adds starter entities.
+- `src/App.ts` owns renderer, scene, camera, loop, and lifecycle.
+- `src/SceneEntity.ts` defines the base class for pluggable entities.
+- `src/entities/ExampleCube.ts` is a minimal example entity.
+- `src/entities/AmbientLight.ts` adds base scene lighting.
+- `src/EventBus.ts`, `src/ResourceManager.ts`, `src/RenderLoop.ts`, and `src/Camera.ts` are reusable core utilities.
 
-If you forked this repository, then you can publish your changes to GitHub pages.
+## Creating Your Own Scene
 
-```bash
-npm run deploy
-```
-
-Visit `https://<your github username>.github.io/Three.js-Boilerplate-TS-Vite/`
-
-E.g.,
-
-[https://sean-bradley.github.io/Three.js-Boilerplate-TS-Vite/](https://sean-bradley.github.io/Three.js-Boilerplate-TS-Vite/)
+1. Create a new entity in `src/entities/` by extending `SceneEntity`.
+2. Add your entity in `src/main.ts` with `app.add(new YourEntity())`.
+3. Keep project-level constants in `src/constants/`.
+4. Keep shared app types in `src/types/`.
