@@ -1,7 +1,6 @@
 import './style.css';
 import { App } from './App';
-import { ExampleCube } from './entities/ExampleCube';
-import { AmbientLight } from './entities/AmbientLight';
+import { ExampleStage } from './stages/ExampleStage';
 
 const canvas = document.querySelector<HTMLCanvasElement>('#canvas');
 if (!canvas) throw new Error('No #canvas element found');
@@ -9,9 +8,19 @@ if (!canvas) throw new Error('No #canvas element found');
 const debug = true;
 
 const app = new App(canvas, debug);
-app.add(new AmbientLight()).add(new ExampleCube());
+
+// 2. Load the stage
+const stage = new ExampleStage();
+stage.init(app);
 
 app.start();
+
+// Example of event delegation triggering a system-level reset
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'r') {
+        app.events.emit('particles:reset', { position: { x: 0, y: 0, z: 0 } });
+    }
+});
 
 // Optional: clean up on HMR / page unload
 if (import.meta.hot) {

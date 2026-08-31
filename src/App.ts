@@ -23,6 +23,9 @@ export class App implements AppContext {
     private entities: SceneEntity[] = [];
     private state: AppState = 'idle';
 
+    private frustum = new THREE.Frustum();
+    private projScreenMatrix = new THREE.Matrix4();
+
     private debug: boolean = false;
     private stats?: Stats;
 
@@ -31,7 +34,8 @@ export class App implements AppContext {
     constructor(canvas: HTMLCanvasElement, debug: boolean) {
         // Renderer
         this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        // Removed this.renderer.setSize(window.innerWidth, window.innerHeight);
+        // because it is handled uniformly by this.onResize() being called below.
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -90,7 +94,27 @@ export class App implements AppContext {
         this.state = 'running';
         this.loop.start((dt) => {
             this.cameraController.update(dt);
-            this.entities.forEach((e) => e.update?.(dt));
+
+            this.camera.updateMatrixWorld();
+            this.projScreenMatrix.multiplyMatrices(
+                this.camera.projectionMatrix,
+                this.camera.matrixWorldInverse,
+            );
+            this.frustum.setFromProjectionMatrix(this.projScreenMatrix);
+
+            for (let i = 0; i < this.entities.length; i++) {
+                const e = this.entities[i];
+                if (!e.update) continue;
+
+                if (e.alwaysUpdate || !e.mesh) {
+                    e.update(dt);
+                } else {
+                    if (this.frustum.intersectsObject(e.mesh)) {
+                        e.update(dt);
+                    }
+                }
+            }
+
             if (this.stats && this.debug) {
                 this.stats.update();
             }
@@ -116,10 +140,14 @@ export class App implements AppContext {
     }
 
     private onResize = (): void => {
-        const el = this.renderer.domElement;
-        const w = el.clientWidth;
-        const h = el.clientHeight;
-        this.renderer.setSize(w, h, false);
+        // Use window inner dimensions to cleanly resize the canvas
+        // without getting caught in a cyclic inline-style loop with the parent container.
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+
+        // This implicitly sets the inline style width/height on the <canvas>
+        this.renderer.setSize(w, h);
+
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         this.camera.aspect = w / h;
         this.camera.updateProjectionMatrix();

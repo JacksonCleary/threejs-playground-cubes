@@ -3,6 +3,8 @@ import { SceneEntity } from '../SceneEntity';
 import type { AppContext } from '../types/AppContext';
 
 export class AmbientLight extends SceneEntity {
+    alwaysUpdate = true;
+
     private light!: THREE.AmbientLight;
     private sunlight!: THREE.DirectionalLight;
 

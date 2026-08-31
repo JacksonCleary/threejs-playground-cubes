@@ -4,7 +4,7 @@ import type { AppContext } from '../types/AppContext';
 import { COLORS } from '../constants/color';
 
 export class ExampleCube extends SceneEntity {
-    private mesh!: THREE.Mesh;
+    mesh!: THREE.Mesh;
     private unsub: Array<() => void> = [];
 
     constructor(

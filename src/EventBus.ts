@@ -1,10 +1,6 @@
-type Handler<T> = (payload: T) => void;
+import { AppEvents } from './types/AppEvents';
 
-// Extend this interface with your own event shapes as the project grows
-export interface AppEvents {
-    'app:resize': { width: number; height: number };
-    'app:disposed': Record<string, never>;
-}
+type Handler<T> = (payload: T) => void;
 
 export class EventBus {
     private listeners = new Map<string, Set<Handler<unknown>>>();
