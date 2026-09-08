@@ -1,17 +1,9 @@
-# Three.js TypeScript Starter
+# Three.js Playground
 
-Clean Three.js starter powered by TypeScript and Vite.
+A place where I test out ThreeJS Ideas.
 
-This repository is intentionally minimal and is designed as a foundation for new 3D projects. It ships with a small app framework (app lifecycle, render loop, entity pattern, resource manager, event bus, camera controller) plus a basic starter scene.
-
-## What You Get
-
-- TypeScript + Vite setup for fast iteration
-- App lifecycle with init/load/update/dispose flow
-- Entity-based scene composition
-- Reusable EventBus and ResourceManager
-- Perspective camera controller and render loop
-- Starter scene: AmbientLight + rotating ExampleCube
+- Made to use TSL and a few AI assisted performance tweaks for frustum culling.
+- uses Bun
 
 ## Quick Start
 
@@ -36,6 +28,8 @@ npm run preview
 - `src/SceneEntity.ts` defines the base class for pluggable entities.
 - `src/entities/ExampleCube.ts` is a minimal example entity.
 - `src/entities/AmbientLight.ts` adds base scene lighting.
+- `src/entities/InstanceSwarmEntity.ts` is a more complex example entity that uses instancing.
+- `src/entities/ParticleSystemEntity.ts` is a more complex example entity that uses a particle system.
 - `src/EventBus.ts`, `src/ResourceManager.ts`, `src/RenderLoop.ts`, and `src/Camera.ts` are reusable core utilities.
 
 ## Creating Your Own Scene
