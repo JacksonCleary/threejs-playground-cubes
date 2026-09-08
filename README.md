@@ -35,6 +35,7 @@ npm run preview
 ## Creating Your Own Scene
 
 1. Create a new entity in `src/entities/` by extending `SceneEntity`.
-2. Add your entity in `src/main.ts` with `app.add(new YourEntity())`.
-3. Keep project-level constants in `src/constants/`.
-4. Keep shared app types in `src/types/`.
+2. Create a new Stage in `src/stages/` by extending `Stage`.
+3. Add you entities to your stage (see ExampleStage.ts).
+4. Keep project-level constants in `src/constants/`.
+5. Keep shared app types in `src/types/`.
