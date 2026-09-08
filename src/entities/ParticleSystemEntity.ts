@@ -14,7 +14,7 @@ export class ParticleSystemEntity implements SceneEntity {
     alwaysUpdate = true;
 
     private material!: THREE.PointsNodeMaterial;
-    // TSL uniform node, mutated directly via .value instead of material.uniforms
+    // TSL uniform node, mutated directly via .value
     private uTime = uniform(0);
     private particleCount = 10000;
 

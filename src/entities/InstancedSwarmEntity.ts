@@ -49,8 +49,6 @@ export class InstancedSwarmEntity implements SceneEntity {
     }
 
     update(dt: number): void {
-        // High-performance update loop managing 1000 entities.
-        // No new memory is allocated here!
         for (let i = 0; i < this.count; i++) {
             this.mesh.getMatrixAt(i, this.dummy.matrix);
 
@@ -61,9 +59,6 @@ export class InstancedSwarmEntity implements SceneEntity {
                 this.dummy.scale,
             );
 
-            // Apply rotation as a quaternion delta directly, not via Euler angles:
-            // round-tripping quaternion -> Euler -> quaternion every frame introduces
-            // angle-wrap/gimbal discontinuities that look like random jitter ("shaking").
             this.dummy.rotateX(dt * 0.5);
             this.dummy.rotateY(dt * 1.0);
 
