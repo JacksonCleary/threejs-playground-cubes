@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import * as THREE from 'three/webgpu';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 interface CameraConfig {
@@ -34,7 +34,7 @@ export class Camera {
         return this.camera;
     }
 
-    attachControls(renderer: THREE.WebGLRenderer): void {
+    attachControls(renderer: THREE.WebGPURenderer): void {
         this.controls = new OrbitControls(this.camera, renderer.domElement);
         this.controls.mouseButtons = {
             LEFT: THREE.MOUSE.ROTATE,

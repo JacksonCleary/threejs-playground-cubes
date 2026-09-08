@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import * as THREE from 'three/webgpu';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { EventBus } from './EventBus';
 import { RenderLoop } from './RenderLoop';
@@ -12,7 +12,7 @@ import { COLORS } from './constants/color';
 type AppState = 'idle' | 'loading' | 'running' | 'disposed';
 
 export class App implements AppContext {
-    readonly renderer: THREE.WebGLRenderer;
+    readonly renderer: THREE.WebGPURenderer;
     readonly scene: THREE.Scene;
     readonly cameraController: Camera;
     readonly camera: THREE.PerspectiveCamera;
@@ -33,7 +33,7 @@ export class App implements AppContext {
 
     constructor(canvas: HTMLCanvasElement, debug: boolean) {
         // Renderer
-        this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+        this.renderer = new THREE.WebGPURenderer({ canvas, antialias: true });
         // Removed this.renderer.setSize(window.innerWidth, window.innerHeight);
         // because it is handled uniformly by this.onResize() being called below.
         this.renderer.setPixelRatio(window.devicePixelRatio);
@@ -89,6 +89,7 @@ export class App implements AppContext {
         if (this.state !== 'idle') return;
         this.state = 'loading';
 
+        await this.renderer.init();
         await Promise.all(this.entities.map((e) => e.load?.(this.resources)));
 
         this.state = 'running';

@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import * as THREE from 'three/webgpu';
 
 export class RenderLoop {
     private rafId = 0;
@@ -6,7 +6,7 @@ export class RenderLoop {
     private running = false;
 
     constructor(
-        private renderer: THREE.WebGLRenderer,
+        private renderer: THREE.WebGPURenderer,
         private scene: THREE.Scene,
         private camera: THREE.Camera,
     ) {}

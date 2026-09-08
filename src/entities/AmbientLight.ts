@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import * as THREE from 'three/webgpu';
 import { SceneEntity } from '../SceneEntity';
 import type { AppContext } from '../types/AppContext';
 

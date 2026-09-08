@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import * as THREE from 'three/webgpu';
 import { SceneEntity } from '../SceneEntity';
 import type { AppContext } from '../types/AppContext';
 
@@ -61,9 +61,11 @@ export class InstancedSwarmEntity implements SceneEntity {
                 this.dummy.scale,
             );
 
-            // Mutate the rotation
-            this.dummy.rotation.x += dt * 0.5;
-            this.dummy.rotation.y += dt * 1.0;
+            // Apply rotation as a quaternion delta directly, not via Euler angles:
+            // round-tripping quaternion -> Euler -> quaternion every frame introduces
+            // angle-wrap/gimbal discontinuities that look like random jitter ("shaking").
+            this.dummy.rotateX(dt * 0.5);
+            this.dummy.rotateY(dt * 1.0);
 
             // Recompose and set
             this.dummy.updateMatrix();

@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import * as THREE from 'three/webgpu';
 import type { AppContext } from './types/AppContext';
 import type { ResourceManager } from './ResourceManager';
 

@@ -1,8 +1,8 @@
-import * as THREE from 'three';
+import * as THREE from 'three/webgpu';
+import { uniform, attribute, positionLocal, vec4 } from 'three/tsl';
 import type { SceneEntity } from '../SceneEntity';
 import type { AppContext } from '../types/AppContext';
-import particleVertexShader from '../shaders/vertex/particles.glsl?raw';
-import particleFragmentShader from '../shaders/fragment/particles.glsl?raw';
+
 export class ParticleSystemEntity implements SceneEntity {
     /**
      * We expose the mesh for culling, but also set alwaysUpdate = true
@@ -13,7 +13,9 @@ export class ParticleSystemEntity implements SceneEntity {
     mesh?: THREE.Points;
     alwaysUpdate = true;
 
-    private material!: THREE.ShaderMaterial;
+    private material!: THREE.PointsNodeMaterial;
+    // TSL uniform node, mutated directly via .value instead of material.uniforms
+    private uTime = uniform(0);
     private particleCount = 10000;
 
     init(app: AppContext): void {
@@ -37,16 +39,15 @@ export class ParticleSystemEntity implements SceneEntity {
         geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
         geometry.setAttribute('velocity', new THREE.BufferAttribute(velocities, 3));
 
-        // 2. Offload Logic to the GPU
-        this.material = new THREE.ShaderMaterial({
-            uniforms: {
-                uTime: { value: 0 },
-            },
-            vertexShader: particleVertexShader,
-            fragmentShader: particleFragmentShader,
+        // 2. Offload Logic to the GPU via TSL node graph (WebGPURenderer requires NodeMaterial)
+        this.material = new THREE.PointsNodeMaterial({
             transparent: true,
             depthWrite: false,
         });
+        this.material.positionNode = positionLocal.add(
+            attribute('velocity', 'vec3').mul(this.uTime),
+        );
+        this.material.colorNode = vec4(1, 1, 1, 0.8);
 
         this.mesh = new THREE.Points(geometry, this.material);
         app.scene.add(this.mesh);
@@ -56,17 +57,14 @@ export class ParticleSystemEntity implements SceneEntity {
         app.events.on('particles:reset', this.handleReset);
     }
 
-    private handleReset = (payload: any) => {
+    private handleReset = () => {
         // Reset everything efficiently at the system level
-        this.material.uniforms.uTime.value = 0;
-        console.log('[ParticleSystemEntity] Particles reset at', payload.position);
+        this.uTime.value = 0;
     };
 
     update(dt: number): void {
         // A single update call manages 10,000 particles by just ticking time
-        if (this.material) {
-            this.material.uniforms.uTime.value += dt;
-        }
+        this.uTime.value += dt;
     }
 
     dispose(): void {
