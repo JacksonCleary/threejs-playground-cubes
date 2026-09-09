@@ -36,6 +36,7 @@ npm run preview
 
 1. Create a new entity in `src/entities/` by extending `SceneEntity`.
 2. Create a new Stage in `src/stages/` by extending `Stage`.
-3. Add you entities to your stage (see ExampleStage.ts).
-4. Keep project-level constants in `src/constants/`.
-5. Keep shared app types in `src/types/`.
+3. Add your entities to your stage (see ExampleStage.ts).
+4. Reference your stage in `src/main.ts` and add it to the app.
+5. Keep project-level constants in `src/constants/`.
+6. Keep shared app types in `src/types/`.
