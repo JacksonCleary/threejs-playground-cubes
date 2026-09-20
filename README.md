@@ -2,8 +2,10 @@
 
 A place where I test out ThreeJS Ideas.
 
-- Made to use TSL and a few AI assisted performance tweaks for frustum culling.
-- uses Bun
+Here are some cubes that walk aroud each other:
+
+Screenshot:
+![Image of Render](./cubes.png)
 
 ## Quick Start
 
@@ -20,23 +22,3 @@ Open http://localhost:5173/
 npm run build
 npm run preview
 ```
-
-## Starter Architecture
-
-- `src/main.ts` creates the app and adds starter entities.
-- `src/App.ts` owns renderer, scene, camera, loop, and lifecycle.
-- `src/SceneEntity.ts` defines the base class for pluggable entities.
-- `src/entities/ExampleCube.ts` is a minimal example entity.
-- `src/entities/AmbientLight.ts` adds base scene lighting.
-- `src/entities/InstanceSwarmEntity.ts` is a more complex example entity that uses instancing.
-- `src/entities/ParticleSystemEntity.ts` is a more complex example entity that uses a particle system.
-- `src/EventBus.ts`, `src/ResourceManager.ts`, `src/RenderLoop.ts`, and `src/Camera.ts` are reusable core utilities.
-
-## Creating Your Own Scene
-
-1. Create a new entity in `src/entities/` by extending `SceneEntity`.
-2. Create a new Stage in `src/stages/` by extending `Stage`.
-3. Add your entities to your stage (see ExampleStage.ts).
-4. Reference your stage in `src/main.ts` and add it to the app.
-5. Keep project-level constants in `src/constants/`.
-6. Keep shared app types in `src/types/`.
