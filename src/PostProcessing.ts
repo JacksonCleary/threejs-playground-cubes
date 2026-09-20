@@ -1,6 +1,5 @@
 import * as THREE from 'three/webgpu';
 import { pass } from 'three/tsl';
-import { pixelationPass } from 'three/addons/tsl/display/PixelationPassNode.js';
 import { afterImage } from 'three/addons/tsl/display/AfterImageNode.js';
 
 export class PostProcessing {
@@ -20,10 +19,8 @@ export class PostProcessing {
 
     buildOutput(): void {
         const regularPass = pass(this.scene, this.camera);
-        // const pixelatedScene = pixelationPass(this.scene, this.camera, 3, 0.3, 0.4);
 
-        const output = afterImage(regularPass, 0.8);
-        // const output = afterImage(pixelatedScene, 0.8);
+        const output = afterImage(regularPass, 0);
 
         this.renderPipeline.outputNode = output;
     }

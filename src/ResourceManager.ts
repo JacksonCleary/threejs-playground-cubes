@@ -29,6 +29,9 @@ export class ResourceManager {
     }
 
     dispose(): void {
+        this.textures.forEach((texturePromise) => {
+            void texturePromise.then((texture) => texture.dispose());
+        });
         this.textures.clear();
         this.gltfCache.clear();
     }

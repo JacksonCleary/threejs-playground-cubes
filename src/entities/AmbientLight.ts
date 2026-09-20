@@ -9,8 +9,8 @@ export class AmbientLight extends SceneEntity {
     private sunlight!: THREE.DirectionalLight;
 
     init(app: AppContext): void {
-        this.light = new THREE.AmbientLight(0xffffff, 0.5);
-        this.sunlight = new THREE.DirectionalLight(0xffffff, 1.2);
+        this.light = new THREE.AmbientLight(0xffffff, 1);
+        this.sunlight = new THREE.DirectionalLight(0xffffff, 5.2);
         this.sunlight.position.set(50, 80, 30);
         this.sunlight.castShadow = true;
         this.sunlight.shadow.mapSize.width = 2048;

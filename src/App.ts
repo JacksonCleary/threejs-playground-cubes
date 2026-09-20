@@ -49,7 +49,9 @@ export class App implements AppContext {
         // this.scene.fog = new THREE.Fog(0x87ceeb, 50, 95);
 
         // Camera
-        this.cameraController = new Camera(0, 0, 20);
+        this.cameraController = new Camera(-8.4, 9.4, -7.6, {
+            target: new THREE.Vector3(12.5, 0, 12.5),
+        });
         this.camera = this.cameraController.getInstance();
         this.cameraController.attachControls(this.renderer);
 
@@ -127,6 +129,8 @@ export class App implements AppContext {
             if (this.controls && this.controls.autoRotate) {
                 this.controls.update();
             }
+            // console log camera position
+            // console.log(this.camera.position);
         });
     }
 
